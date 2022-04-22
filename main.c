@@ -12,21 +12,25 @@ int main(int argc, char *argv[]) {
     FILE *outputFile;
     char inputFileName[256];
     char outputFileName[256];
-    char inputBuffer[512];
+    /* char inputBuffer[512]; */
+
+    size_t len = 0;
+    char *line = NULL;
 
     NODE *pStart = NULL, *pEnd, *pNew, *ptr;
 
     switch(argc) {
         case 1:
-            while (fgets(inputBuffer, 512, stdin) != NULL) {
-                inputBuffer[strcspn(inputBuffer, "\n")] = 0;
+            while (getline(&line, &len, stdin) != -1/* fgets(inputBuffer, 512, stdin) != NULL */) {
+                /* inputBuffer[strcspn(inputBuffer, "\n")] = 0; */
+                
 
                 if ((pNew = (NODE*)malloc(sizeof(NODE))) == NULL) {
                     perror("malloc failed");
                     exit(1);
                 }
 
-                strcpy(pNew->data, inputBuffer);
+                strcpy(pNew->data, line/* inputBuffer */);
                 pNew->pNext = NULL;
                 pNew->pLast = NULL;
 
@@ -47,7 +51,7 @@ int main(int argc, char *argv[]) {
 
             ptr = pEnd;
             while (ptr != NULL) {
-                printf("%s\n", ptr->data);
+                printf("%s", ptr->data);
                 ptr = ptr->pLast;
             }
 
@@ -56,15 +60,14 @@ int main(int argc, char *argv[]) {
             strcpy(inputFileName, argv[1]);
             inputFile = fopen(inputFileName, "r");
 
-            while (fgets(inputBuffer, 510, inputFile) != NULL) {
-                inputBuffer[strcspn(inputBuffer, "\n")] = 0;
-
+            while (getline(&line, &len, inputFile) != -1/* fgets(inputBuffer, 510, inputFile) != NULL */) {
+                /* inputBuffer[strcspn(inputBuffer, "\n")] = 0; */
                 if ((pNew = (NODE*)malloc(sizeof(NODE))) == NULL) {
                     perror("malloc failed");
                     exit(1);
                 }
 
-                strcpy(pNew->data, inputBuffer);
+                strcpy(pNew->data, line/* inputBuffer */);
                 pNew->pNext = NULL;
                 pNew->pLast = NULL;
 
@@ -85,7 +88,7 @@ int main(int argc, char *argv[]) {
 
             ptr = pEnd;
             while (ptr != NULL) {
-                printf("%s\n", ptr->data);
+                printf("%s", ptr->data);
                 ptr = ptr->pLast;
             }
 
@@ -95,15 +98,15 @@ int main(int argc, char *argv[]) {
             strcpy(inputFileName, argv[1]);
             inputFile = fopen(inputFileName, "r");
 
-            while (fgets(inputBuffer, 510, inputFile) != NULL) {
-                inputBuffer[strcspn(inputBuffer, "\n")] = 0;
+            while (getline(&line, &len, inputFile) != -1/* fgets(inputBuffer, 510, inputFile) != NULL */) {
+                /* inputBuffer[strcspn(inputBuffer, "\n")] = 0; */
 
                 if ((pNew = (NODE*)malloc(sizeof(NODE))) == NULL) {
                     perror("malloc failed");
                     exit(1);
                 }
 
-                strcpy(pNew->data, inputBuffer);
+                strcpy(pNew->data, line/* inputBuffer */);
                 pNew->pNext = NULL;
                 pNew->pLast = NULL;
 
@@ -128,7 +131,7 @@ int main(int argc, char *argv[]) {
             outputFile = fopen(outputFileName, "w");
 
             while (ptr != NULL) {
-                fprintf(outputFile, "%s\n", ptr->data);
+                fprintf(outputFile, "%s", ptr->data);
                 ptr = ptr->pLast;
             }
 
